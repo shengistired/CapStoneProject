@@ -51,7 +51,5 @@ public class Login {
 	public void setLastLogin(LocalDateTime lastLogin) {
 		this.lastLogin = lastLogin;
 	}
-
-	
 	
 }
