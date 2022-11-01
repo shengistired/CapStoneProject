@@ -6,13 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cognixia.model.Login;
+import com.cognixia.model.UserInfo;
 import com.cognixia.repository.LoginRepository;
+import com.cognixia.repository.UserRepository;
 
 @Service
 public class LoginService {
 	
 	@Autowired
 	LoginRepository loginRepository;
+	
+	@Autowired
+	UserRepository userRepository;
 
 	
 	public List<Login> getLogin() {
@@ -23,9 +28,8 @@ public class LoginService {
 		loginRepository.save(login);
 	}
 	
-	public Login getLoginById(int id) {
-		
-		return loginRepository.findById(id).orElseThrow();
+	public UserInfo getUser(UserInfo user) {
+		return userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
 	}
 
 }
