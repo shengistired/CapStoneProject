@@ -3,16 +3,16 @@ spring:
     name: API-GATEWAY
   cloud:
     gateway:
-      routes:
-      - id: FILE-UPLOAD
-        uri: lb://FILE-UPLOAD
+     routes:
+      - id: UPLOAD-SERVICE
+        uri: lb://UPLOAD-SERVICE
         predicates:
         - Path=/api/fileupload/**
         filters:
         - StripPrefix=2
-      - id: ACCOUNT-SERVICE
-        uri: lb://ACCOUNT-SERVICE
+      - id: UPLOAD-CONSUMER-SERVICE
+        uri: lb://UPLOAD-CONSUMER-SERVICE
         predicates:
-        - Path=/api/accountservice/**
+        - Path=/api/fileuploadconsumer/**
         filters:
         - StripPrefix=2
