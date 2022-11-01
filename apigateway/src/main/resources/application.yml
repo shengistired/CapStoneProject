@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      routes:
+      - id: FILE-UPLOAD
+        uri: lb://FILE-UPLOAD
+        predicates:
+        - Path=/api/fileupload/**
+        filters:
+        - StripPrefix=2
+      - id: ACCOUNT-SERVICE
+        uri: lb://ACCOUNT-SERVICE
+        predicates:
+        - Path=/api/accountservice/**
+        filters:
+        - StripPrefix=2
