@@ -33,6 +33,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import com.cognixia.model.FileDetails;
 
@@ -51,7 +58,9 @@ public class BatchConfig  extends DefaultBatchConfigurer{
 	@Autowired
 	public StepBuilderFactory stepBuilderFactory;
 
-	private Resource outputResource = new FileSystemResource("reconFile.txt");
+	public Resource outputResource = new FileSystemResource("reconFile.txt");
+
+	
 
 	@Bean
 	public FlatFileItemWriter<FileDetails> fileWriter() {
@@ -65,7 +74,7 @@ public class BatchConfig  extends DefaultBatchConfigurer{
 				setFieldExtractor(new BeanWrapperFieldExtractor<FileDetails>() {
 					{
 
-						setNames(new String[] { "id", "fileName", "fileType", "fileSize", "uploadedBy", "timeStamp" });
+						setNames(new String[] { "id", "fileName", "fileType", "fileSize", "uploadedBy"});
 					}
 				});
 			}
@@ -137,8 +146,12 @@ public class BatchConfig  extends DefaultBatchConfigurer{
 				.writer(compositeItemWriter).build();
 	}
 
+
 	@Bean
-	public Job job(Step step1) {
-		return jobBuilderFactory.get("job").start(step1).build();
+	public Job job(SendReconFileListener listener,Step step1) {
+		
+		Job job =  jobBuilderFactory.get("job").listener(listener).start(step1).build();
+
+		return job;
 	}
 }

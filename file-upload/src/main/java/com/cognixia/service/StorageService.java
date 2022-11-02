@@ -20,5 +20,5 @@ public interface StorageService {
 
 	void deleteAll();
 	
-	void deleteFiles(File txtfile);
+	void deleteFiles(String name);
 }

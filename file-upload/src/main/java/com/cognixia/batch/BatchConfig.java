@@ -2,22 +2,27 @@ package com.cognixia.batch;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
-import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
-import org.springframework.batch.item.support.CompositeItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.web.client.RestTemplate;
 
 import com.cognixia.model.FileDetails;
 
-
+@Configuration
+@EnableBatchProcessing
 public class BatchConfig {
 	@Autowired
 	public JobBuilderFactory jobBuilderFactory;
@@ -25,13 +30,14 @@ public class BatchConfig {
 	@Autowired
 	public StepBuilderFactory stepBuilderFactory;
 	
+	
 	@Bean
 	public FlatFileItemReader<FileDetails> reader() {
 		return new FlatFileItemReaderBuilder<FileDetails>()
 			.name("fileItemReader")
-			.resource(new ClassPathResource("reconFile.csv"))
+			.resource(new FileSystemResource("reconFile.txt"))
 			.delimited()
-			.names(new String[]{"id", "fileName", "fileType", "fileSize", "uploadedBy", "timeStamp"})
+			.names(new String[]{"id", "fileName", "fileType", "fileSize", "uploadedBy"})
 			.fieldSetMapper(new BeanWrapperFieldSetMapper<FileDetails>() {{
 				setTargetType(FileDetails.class);
 			}})
@@ -58,6 +64,7 @@ public class BatchConfig {
 
 	@Bean
 	public Job job(Step step1) {
+		
 		return jobBuilderFactory.get("job").start(step1).build();
 	}
 }

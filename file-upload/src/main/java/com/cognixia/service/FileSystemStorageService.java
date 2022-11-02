@@ -143,7 +143,8 @@ public class FileSystemStorageService implements StorageService{
 	}
 
 	@Override
-	public void deleteFiles(File txtfile) {
+	public void deleteFiles(String fileName) {
+		fileStorageRepository.deleteAllByFileName(fileName);
 		
 //		for(File file: name) {
 //			FileSystemUtils.deleteRecursively(file);

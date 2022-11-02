@@ -8,4 +8,6 @@ import com.cognixia.model.FileDetails;
 @Repository
 public interface FileStorageRepository extends JpaRepository<FileDetails, Integer>{
 
+	void deleteAllByFileName(String fileName);
+
 }

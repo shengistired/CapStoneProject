@@ -1,6 +1,7 @@
 package com.cognixia.controller;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.stream.Collectors;
@@ -8,17 +9,31 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobParameters;
+import org.springframework.batch.core.JobParametersBuilder;
+import org.springframework.batch.core.JobParametersInvalidException;
+import org.springframework.batch.core.launch.JobLauncher;
+import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
+import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
+import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -120,10 +135,38 @@ public class FileUploadController {
 		//return "redirect:/";
 	}
 	
-	@PostMapping("/purge")
-	public void purgeFile() {
-		RestTemplate restTemplate = new RestTemplate();
-		storageService.deleteFiles(restTemplate.getForObject("http://localhost:8082/send", File.class));
+	@Autowired
+	JobLauncher jobLauncher;
+
+	@Autowired
+	Job job;
+	
+	@RequestMapping(path = "/purge/", method = RequestMethod.POST)
+	public void purgeFile(@RequestParam("file") MultipartFile file) throws IOException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, JobParametersInvalidException{
+		System.out.println("HELLO WORLD");
+		File newFile = new File(file.getOriginalFilename());
+		
+		System.out.println("????????????????????");
+		System.out.println("????????????????????");
+		System.out.println("????????????????????");
+		System.out.println("????????????????????");
+		System.out.println("????????????????????");
+		System.out.println("File-Upload" + newFile.getName());
+		System.out.println("????????????????????");
+		System.out.println("????????????????????");
+		System.out.println("????????????????????");
+		System.out.println("????????????????????");
+		System.out.println("????????????????????");
+		
+		File outputFile = new File(file.getOriginalFilename());
+		try(FileOutputStream outputStream = new FileOutputStream(outputFile)){
+			outputStream.write(file.getBytes());
+		}
+		
+		JobParameters params = new JobParametersBuilder().addString("JobID", String.valueOf(System.currentTimeMillis()))
+				.toJobParameters();
+		jobLauncher.run(job, params);
+
 	}
 
 	@ExceptionHandler(StorageFileNotFoundException.class)
