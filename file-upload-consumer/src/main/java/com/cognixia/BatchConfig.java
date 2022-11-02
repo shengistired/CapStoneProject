@@ -51,7 +51,7 @@ public class BatchConfig  extends DefaultBatchConfigurer{
 	@Autowired
 	public StepBuilderFactory stepBuilderFactory;
 
-	private Resource outputResource = new FileSystemResource("reconFile.csv");
+	private Resource outputResource = new FileSystemResource("reconFile.txt");
 
 	@Bean
 	public FlatFileItemWriter<FileDetails> fileWriter() {

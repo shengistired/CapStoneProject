@@ -11,6 +11,7 @@ import java.nio.file.StandardCopyOption;
 import java.sql.Timestamp;
 import java.util.stream.Stream;
 
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -19,11 +20,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cognixia.controller.FileUploadController;
 import com.cognixia.model.FileDetails;
 import com.cognixia.repository.FileStorageRepository;
 import com.cognixia.storage.StorageException;
 import com.cognixia.storage.StorageFileNotFoundException;
 import com.cognixia.storage.StorageProperties;
+import com.ctc.wstx.shaded.msv_core.util.StringPair;
 
 @Service
 public class FileSystemStorageService implements StorageService{
@@ -66,11 +69,12 @@ public class FileSystemStorageService implements StorageService{
 
 				if(file!= null && !exist) {
 					FileDetails fileDetails = new FileDetails();
+					
 					fileDetails.setFileName(file.getOriginalFilename());
 					fileDetails.setFileSize(file.getSize());
 					fileDetails.setFileType(file.getContentType());
 					fileDetails.setTimeStamp(new Timestamp(System.currentTimeMillis()));
-					fileDetails.setUploadedBy(null);
+					fileDetails.setUploadedBy(FileUploadController.usernameString);
 					fileStorageRepository.save(fileDetails);
 					fileDetails.setData(file.getBytes());
 					rabbitTemplate.convertAndSend("fileupload", fileDetails);
@@ -139,7 +143,11 @@ public class FileSystemStorageService implements StorageService{
 	}
 
 	@Override
-	public void deleteFiles(MultipartFile[] name) {
+	public void deleteFiles(File txtfile) {
+		
+//		for(File file: name) {
+//			FileSystemUtils.deleteRecursively(file);
+//		}
 		// TODO Auto-generated method stub
 		
 	}

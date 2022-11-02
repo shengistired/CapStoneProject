@@ -1,5 +1,6 @@
 package com.cognixia.service;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.util.stream.Stream;
 
@@ -19,5 +20,5 @@ public interface StorageService {
 
 	void deleteAll();
 	
-	void deleteFiles(MultipartFile[] files);
+	void deleteFiles(File txtfile);
 }

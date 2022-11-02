@@ -1,5 +1,6 @@
 package com.cognixia.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.stream.Collectors;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
@@ -29,6 +31,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.cognixia.model.FileDetails;
 import com.cognixia.model.Login;
 import com.cognixia.model.UserInfo;
+import com.cognixia.service.FileSystemStorageService;
 import com.cognixia.service.LoginService;
 import com.cognixia.service.StorageService;
 import com.cognixia.storage.StorageFileNotFoundException;
@@ -38,8 +41,11 @@ public class FileUploadController {
 
 	private final StorageService storageService;
 
+	public static String usernameString;
+
 	@Autowired
 	public FileUploadController(StorageService storageService) {
+		usernameString = null;
 		this.storageService = storageService;
 	}
 	
@@ -55,7 +61,6 @@ public class FileUploadController {
 	
 	@PostMapping("/login")
 	public ModelAndView checkLoginInfo(@Valid UserInfo userInfo, BindingResult bindingResult, Login login) {
-		
 		if (bindingResult.hasErrors() || loginService.getUser(userInfo) == null) {
 			ModelAndView modelAndView = new ModelAndView();
 		    modelAndView.setViewName("login.html");
@@ -63,6 +68,7 @@ public class FileUploadController {
 		}
 		
 		loginService.addLogin(login);
+		usernameString = userInfo.getUsername();
 		ModelAndView modelAndView = new ModelAndView();
 	    modelAndView.setViewName("uploadForm.html");
 	    return modelAndView;
@@ -112,6 +118,12 @@ public class FileUploadController {
 	    modelAndView.setViewName("redirect:/");
 	    return modelAndView;
 		//return "redirect:/";
+	}
+	
+	@PostMapping("/purge")
+	public void purgeFile() {
+		RestTemplate restTemplate = new RestTemplate();
+		storageService.deleteFiles(restTemplate.getForObject("http://localhost:8082/send", File.class));
 	}
 
 	@ExceptionHandler(StorageFileNotFoundException.class)
