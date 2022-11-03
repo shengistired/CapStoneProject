@@ -1,4 +1,6 @@
 # Team 1 CapStoneProject
+Architecture Design - Izdihar
+Powerpoint - Izdihar
 file-upload - Izdihar \
  &nbsp;&nbsp;&nbsp;&nbsp; file-upload/batch - Yong Sheng \
  &nbsp;&nbsp;&nbsp;&nbsp; file-upload/controller - Izdihar/Yong Sheng/Odelia \
