@@ -1,11 +1,11 @@
 # CapStoneProject
-file-upload - Izdihar
-  file-upload/batch - Yong Sheng
-  file-upload/controller - Izdihar/Yong Sheng/Odelia
-  file-upload/LoginService.java - Odelia
-  file-upload/model/Login.java - Odelia
-  file-upload/model/UserInfo.java - Odelia
+file-upload - Izdihar \
+ &nbsp;&nbsp;&nbsp;&nbsp; file-upload/batch - Yong Sheng \
+ &nbsp;&nbsp;&nbsp;&nbsp; file-upload/controller - Izdihar/Yong Sheng/Odelia \
+ &nbsp;&nbsp;&nbsp;&nbsp; file-upload/LoginService.java - Odelia \
+ &nbsp;&nbsp;&nbsp;&nbsp; file-upload/model/Login.java - Odelia \
+ &nbsp;&nbsp;&nbsp;&nbsp;  file-upload/model/UserInfo.java - Odelia 
 
- 
-file-upload-consumer, reconciliationms - Yong Sheng
+
+file-upload-consumer, reconciliationms - Yong Sheng \
 eureka-server, apigateway - odelia
