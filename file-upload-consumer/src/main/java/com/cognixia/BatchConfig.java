@@ -1,3 +1,13 @@
+/*
+ * 
+ * 
+ * 
+ * Done By: Yong Sheng
+ * 
+ * 
+ * 
+ */
+
 package com.cognixia;
 
 import java.util.Arrays;
@@ -33,13 +43,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
 
 import com.cognixia.model.FileDetails;
 

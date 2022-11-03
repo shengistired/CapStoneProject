@@ -1,3 +1,13 @@
+/*
+ * 
+ * 
+ * 
+ * Done By: Izdihar
+ * 
+ * 
+ * 
+ */
+
 package com.cognixia.service;
 
 import java.io.File;
@@ -11,7 +21,6 @@ import java.nio.file.StandardCopyOption;
 import java.sql.Timestamp;
 import java.util.stream.Stream;
 
-import org.apache.http.auth.UsernamePasswordCredentials;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -26,7 +35,6 @@ import com.cognixia.repository.FileStorageRepository;
 import com.cognixia.storage.StorageException;
 import com.cognixia.storage.StorageFileNotFoundException;
 import com.cognixia.storage.StorageProperties;
-import com.ctc.wstx.shaded.msv_core.util.StringPair;
 
 @Service
 public class FileSystemStorageService implements StorageService{
@@ -54,34 +62,36 @@ public class FileSystemStorageService implements StorageService{
 			if(Files.exists(checkFile)) {
 				exist = true;
 			}
+			else {
+				Path destinationFile = this.rootLocation.resolve(
+						Paths.get(file.getOriginalFilename()))
+						.normalize().toAbsolutePath();
+				if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
+					// This is a security check
+					throw new StorageException(
+							"Cannot store file outside current directory.");
+				}
+				try (InputStream inputStream = file.getInputStream()) {
+					Files.copy(inputStream, destinationFile,
+						StandardCopyOption.REPLACE_EXISTING);
 
-			Path destinationFile = this.rootLocation.resolve(
-					Paths.get(file.getOriginalFilename()))
-					.normalize().toAbsolutePath();
-			if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
-				// This is a security check
-				throw new StorageException(
-						"Cannot store file outside current directory.");
-			}
-			try (InputStream inputStream = file.getInputStream()) {
-				Files.copy(inputStream, destinationFile,
-					StandardCopyOption.REPLACE_EXISTING);
-
-				if(file!= null && !exist) {
-					FileDetails fileDetails = new FileDetails();
-					
-					fileDetails.setFileName(file.getOriginalFilename());
-					fileDetails.setFileSize(file.getSize());
-					fileDetails.setFileType(file.getContentType());
-					fileDetails.setTimeStamp(new Timestamp(System.currentTimeMillis()));
-					fileDetails.setUploadedBy(FileUploadController.usernameString);
-					fileStorageRepository.save(fileDetails);
-					fileDetails.setData(file.getBytes());
-					rabbitTemplate.convertAndSend("fileupload", fileDetails);
+					if(file!= null && !exist) {
+						FileDetails fileDetails = new FileDetails();
+						
+						fileDetails.setFileName(file.getOriginalFilename());
+						fileDetails.setFileSize(file.getSize());
+						fileDetails.setFileType(file.getContentType());
+						fileDetails.setTimeStamp(new Timestamp(System.currentTimeMillis()));
+						fileDetails.setUploadedBy(FileUploadController.usernameString);
+						fileStorageRepository.save(fileDetails);
+						fileDetails.setData(file.getBytes());
+						rabbitTemplate.convertAndSend("fileupload", fileDetails);
 
 
+					}
 				}
 			}
+
 
 		}
 		catch (IOException e) {

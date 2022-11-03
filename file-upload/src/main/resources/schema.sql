@@ -1,6 +1,4 @@
-DROP TABLE IF EXISTS fileupload;
-
-CREATE TABLE fileupload(
+CREATE TABLE IF NOT EXISTS file_details(
   	id VARCHAR(255),
 	fileName VARCHAR(255),
 	fileType VARCHAR(255),

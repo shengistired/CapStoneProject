@@ -1,3 +1,12 @@
+/*
+ * 
+ * 
+ * 
+ * Done By: Odelia
+ * 
+ * 
+ * 
+ */
 package com.cognixia.model;
 
 import javax.persistence.Entity;

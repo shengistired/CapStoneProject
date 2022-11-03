@@ -1,3 +1,12 @@
+/*
+ * 
+ * 
+ * 
+ * Done By: Izdihar
+ * 
+ * 
+ * 
+ */
 package com.cognixia.model;
 
 import java.io.Serializable;

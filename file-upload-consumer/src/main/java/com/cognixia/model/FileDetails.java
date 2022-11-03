@@ -1,3 +1,12 @@
+/*
+ * 
+ * 
+ * 
+ * Done By: Yong Sheng
+ * 
+ * 
+ * 
+ */
 package com.cognixia.model;
 
 import java.io.Serializable;

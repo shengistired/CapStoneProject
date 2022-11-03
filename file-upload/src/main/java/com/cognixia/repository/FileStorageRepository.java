@@ -1,3 +1,12 @@
+/*
+ * 
+ * 
+ * 
+ * Done By: Izdihar
+ * 
+ * 
+ * 
+ */
 package com.cognixia.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,3 +1,13 @@
+/*
+ * 
+ * 
+ * 
+ * Done By: Yong Sheng
+ * 
+ * 
+ * 
+ */
+
 package com.cognixia.batch;
 
 import org.springframework.batch.core.Job;
@@ -10,14 +20,9 @@ import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.web.client.RestTemplate;
 
 import com.cognixia.model.FileDetails;
 
