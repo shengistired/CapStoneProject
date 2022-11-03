@@ -1,4 +1,4 @@
-# CapStoneProject
+# Team 1 CapStoneProject
 file-upload - Izdihar \
  &nbsp;&nbsp;&nbsp;&nbsp; file-upload/batch - Yong Sheng \
  &nbsp;&nbsp;&nbsp;&nbsp; file-upload/controller - Izdihar/Yong Sheng/Odelia \
