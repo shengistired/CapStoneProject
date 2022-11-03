@@ -4,7 +4,7 @@
  * 
  * Done By: Izdihar 
  * Request Mapping done By: Yong Sheng
- * 
+ * Request Mapping for Login done By: Odelia
  * 
  * 
  */
@@ -103,11 +103,7 @@ public class FileUploadController {
 	    modelAndView.setViewName("uploadForm.html");
 	    return modelAndView;
 	}
-//	@GetMapping("/login")
-//	public String loginForm(Model model) throws IOException {
-//
-//		return "loginForm";
-//	}
+
 
 
 	@GetMapping("/files/{filename:.+}")
